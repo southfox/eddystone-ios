@@ -1,12 +1,17 @@
 public class Object: Equatable {
     
     //MARK: Properties
+    /// The signal strength of the nearby entity
     private(set) public var signalStrength: Beacon.SignalStrength
+    /// A unique identifier for the beacon
     private(set) public var identifier: String
-    
+    /// The percent battery left on the beacon
     private(set) public var battery: Double?
+    /// The temperature of the beacon in degrees Celsius
     private(set) public var temperature: Double?
+    /// The amount of packets the beacon has sent
     private(set) public var advertisementCount: Int?
+    /// The amount of time the beacon has been on in seconds
     private(set) public var onTime: NSTimeInterval?
     
     //MARK: Initilizations
@@ -19,7 +24,7 @@ public class Object: Equatable {
         self.battery = Object.batteryLevelInPercent(frame.batteryVolts)
         self.temperature = frame.temperature
         self.advertisementCount = frame.advertisementCount
-        self.onTime = NSTimeInterval(frame.onTime)
+        self.onTime = NSTimeInterval(frame.onTime / 10)
     }
     
     //MARK: Class
