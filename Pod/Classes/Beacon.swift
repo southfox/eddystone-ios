@@ -139,14 +139,13 @@ public class Beacon {
     //MARK: Bytes
     class func beaconWithAdvertisementData(advertisementData: [NSObject : AnyObject], rssi: Double, identifier: String) -> Beacon? {
         var txPower: Int?
-        var url: NSURL?
         var type: FrameType?
 
         if let bytes = Beacon.bytesFromAdvertisementData(advertisementData) {
             type = Beacon.frameTypeFromBytes(bytes)
             txPower = Beacon.txPowerFromBytes(bytes)
             
-            if let type = type, txPower = txPower {
+            if let txPower = txPower where type != nil {
                 let beacon = Beacon(rssi: rssi, txPower: txPower, identifier: identifier)
                 beacon.parseAdvertisementData(advertisementData, rssi: rssi)
                 return beacon
