@@ -50,9 +50,9 @@ extension ExampleViewController: UITableViewDataSource {
     }
     
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier("ExampleTableViewCell") as! ExampleTableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier("ExampleTableViewCell") as! ExampleTableViewCell
         
-        var url = self.urls[indexPath.row]
+        let url = self.urls[indexPath.row]
         
         cell.mainLabel.text = url.url.absoluteString
         

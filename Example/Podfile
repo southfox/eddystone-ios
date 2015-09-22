@@ -8,5 +8,5 @@ target 'Eddystone_Example', :exclusive => true do
 end
 
 target 'Eddystone_Tests', :exclusive => true do
-    pod "Eddystone", :path => "../"
+    pod "Eddystone", :path => "../" 
 end

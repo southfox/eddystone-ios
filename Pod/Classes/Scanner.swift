@@ -101,11 +101,11 @@ public class Scanner: NSObject {
         get {
             var orderedBeacons = [Beacon]()
             
-            for (identifier, beacon) in self.shared.discoveredBeacons {
+            for beacon in self.shared.discoveredBeacons.values {
                 orderedBeacons.append(beacon)
             }
             
-            orderedBeacons.sort { beacon1, beacon2 in
+            orderedBeacons.sortInPlace { beacon1, beacon2 in
                 return beacon1.distance < beacon2.distance
             }
             
@@ -117,7 +117,7 @@ public class Scanner: NSObject {
 
 extension Scanner: CBCentralManagerDelegate {
     
-    public func centralManagerDidUpdateState(central: CBCentralManager!) {
+    public func centralManagerDidUpdateState(central: CBCentralManager) {
         if central.state == .PoweredOn {
             central.scanForPeripheralsWithServices([Scanner.eddystoneServiceUUID], options: [CBCentralManagerScanOptionAllowDuplicatesKey: true])
         } else {
@@ -125,7 +125,7 @@ extension Scanner: CBCentralManagerDelegate {
         }
     }
     
-    public func centralManager(central: CBCentralManager!, didDiscoverPeripheral peripheral: CBPeripheral!, advertisementData: [NSObject : AnyObject]!, RSSI: NSNumber!) {
+    public func centralManager(central: CBCentralManager, didDiscoverPeripheral peripheral: CBPeripheral, advertisementData: [String : AnyObject], RSSI: NSNumber) {
         let identifier = peripheral.identifier.UUIDString
 
         if let beacon = self.discoveredBeacons[identifier] {

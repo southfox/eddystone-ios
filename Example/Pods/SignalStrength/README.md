@@ -5,11 +5,13 @@
 [![License](https://img.shields.io/cocoapods/l/SignalStrength.svg?style=flat)](http://cocoapods.org/pods/SignalStrength)
 [![Platform](https://img.shields.io/cocoapods/p/SignalStrength.svg?style=flat)](http://cocoapods.org/pods/SignalStrength)
 
+## Preview
+
+![alt tag](http://tanner.xyz/signal-strength.gif?cache=29384872)
+
 ## Usage
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
-## Requirements
 
 ## Installation
 
@@ -20,9 +22,43 @@ it, simply add the following line to your Podfile:
 pod "SignalStrength"
 ```
 
+## Usage
+
+Add a view to your Storyboard and set the class to `SignalStrengthView`. The view is `@IBDesignable` so you should immediately see the signal strength indicators and intrinsic sizing.
+
+Add an outlet from the `SignalStrengthView` to your ViewController to modify the `SignalStrengthView`'s `signal` and `flipped` properties.
+
+### Signal
+
+This `enum` property changes how many dots are filled in on the view. Use the example application provided in the CocoaPod to view how different `SignalStrength` values affect the view.
+
+```swift
+enum SignalStrength {
+    case Excellent
+    case VeryGood
+    case Good
+    case Low
+    case VeryLow
+    case NoSignal
+    case Unknown
+
+}
+```
+### Color
+
+This `UIColor` property changes the background color of the dots. This is great for inverting the color of the SignalStrengthView if it is in a selected UITableViewCell.
+
+### Flipped
+
+This `Bool` property changes from which side the dots will begin to fill in or empty. Setting flipped to true for right aligned views is recommended.
+
+## Customization
+
+`sizing` and `spacing` constants can be modified at compile time in the `SignalStrengthDotView` class.
+
 ## Author
 
-Tanner Nelson, tanner@bluebite.com
+Tanner Nelson, <me@tanner.xyz>
 
 ## License
 

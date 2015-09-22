@@ -10,7 +10,7 @@ public class Uid: Object {
     }
     
     //MARK: Initializations
-    init(namespace: String, instance: String, signalStrength: Beacon.SignalStrength, var identifier: String) {
+    init(namespace: String, instance: String, signalStrength: Beacon.SignalStrength, identifier: String) {
         self.namespace = namespace
         self.instance = instance
         

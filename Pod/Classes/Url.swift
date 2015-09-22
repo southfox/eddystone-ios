@@ -6,13 +6,8 @@ public class Url: Object {
     //MARK: Initializations
     init(url: NSURL, signalStrength: Beacon.SignalStrength, identifier: String) {
         self.url = url
-        
-        var urlString = ""
-        if let absoluteString = url.absoluteString {
-            urlString = absoluteString
-        }
-        
-        super.init(signalStrength: signalStrength, identifier: urlString + identifier)
+
+        super.init(signalStrength: signalStrength, identifier: url.absoluteString + identifier)
     }
     
 }

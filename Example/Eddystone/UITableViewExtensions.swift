@@ -52,7 +52,7 @@ extension UITableView {
         
         self.endUpdates()
         
-        if let rows = self.indexPathsForVisibleRows() {
+        if let rows = self.indexPathsForVisibleRows {
             self.reloadRowsAtIndexPaths(rows, withRowAnimation: .None)
         }
     }
