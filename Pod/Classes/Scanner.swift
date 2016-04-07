@@ -139,7 +139,7 @@ extension Scanner: CBCentralManagerDelegate {
         }
         
         self.beaconTimers[identifier]?.invalidate()
-        self.beaconTimers[identifier] = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: Selector("beaconTimerExpire:"), userInfo: identifier, repeats: false)
+        self.beaconTimers[identifier] = NSTimer.scheduledTimerWithTimeInterval(10, target: self, selector: #selector(Scanner.beaconTimerExpire(_:)), userInfo: identifier, repeats: false)
     }
     
     @objc func beaconTimerExpire(timer: NSTimer) {
