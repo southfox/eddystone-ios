@@ -19,11 +19,11 @@ extension UITableView {
             
             if !found {
                 indexPathsToInsert.append(
-                    NSIndexPath(forRow: index, inSection: 0)
+                    NSIndexPath(row: index, section: 0)
                 )
             }
             
-            index++
+            index += 1
         }
         
         index = 0
@@ -38,22 +38,22 @@ extension UITableView {
             
             if !found {
                 indexPathsToDelete.append(
-                    NSIndexPath(forRow: index, inSection: 0)
+                    NSIndexPath(row: index, section: 0)
                 )
             }
             
-            index++
+            index += 1
         }
         
         self.beginUpdates()
         
-        self.insertRowsAtIndexPaths(indexPathsToInsert, withRowAnimation: animation)
-        self.deleteRowsAtIndexPaths(indexPathsToDelete, withRowAnimation: animation)
+        self.insertRows(at: indexPathsToInsert as [IndexPath], with: animation)
+        self.deleteRows(at: indexPathsToDelete as [IndexPath], with: animation)
         
         self.endUpdates()
         
         if let rows = self.indexPathsForVisibleRows {
-            self.reloadRowsAtIndexPaths(rows, withRowAnimation: .None)
+            self.reloadRows(at: rows, with: .none)
         }
     }
     

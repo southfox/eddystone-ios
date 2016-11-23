@@ -17,7 +17,11 @@ class ExampleViewController: UIViewController {
     //MARK: Properties
     var urls = Eddystone.Scanner.nearbyUrls
     var previousUrls: [Eddystone.Url] = []
+
+    var uids = Eddystone.Scanner.nearbyUids
+    var previousUids: [Eddystone.Uid] = []
     
+
     //MARK: Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,7 +41,15 @@ extension ExampleViewController: Eddystone.ScannerDelegate {
         self.previousUrls = self.urls
         self.urls = Eddystone.Scanner.nearbyUrls
         
-        self.mainTableView.switchDataSourceFrom(self.previousUrls, to: self.urls, withAnimation: .Top)
+        self.previousUids = self.uids
+        self.uids = Eddystone.Scanner.nearbyUids
+
+        if self.urls.count > 0 {
+            self.mainTableView.switchDataSourceFrom(oldData: self.previousUrls, to: self.urls, withAnimation: .top)
+        }
+        else {
+            self.mainTableView.switchDataSourceFrom(oldData: self.previousUids, to: self.uids, withAnimation: .top)
+        }
     }
     
 }
@@ -45,47 +57,61 @@ extension ExampleViewController: Eddystone.ScannerDelegate {
 
 extension ExampleViewController: UITableViewDataSource {
     
-    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.urls.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return self.urls.count > 0 ? self.urls.count : self.uids.count
     }
     
-    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("ExampleTableViewCell") as! ExampleTableViewCell
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ExampleTableViewCell") as! ExampleTableViewCell
         
-        let url = self.urls[indexPath.row]
+        if (self.urls.count > 0) {
+            let url = self.urls[indexPath.row]
+            
+            cell.mainLabel.text = url.url.absoluteString
+            self.detailText(object: url, cell: cell)
+        }
+        else if self.uids.count > 0 {
+            cell.detailLabel.text = "No telemetry data"
+            let uid = self.uids[indexPath.row]
+            
+            cell.mainLabel.text = uid.uid
+            self.detailText(object: uid, cell: cell)
+        }
+        else {
+            
+        }
         
-        cell.mainLabel.text = url.url.absoluteString
-        
-        if  let battery = url.battery,
-            let temp = url.temperature,
-            let advCount = url.advertisementCount,
-            let onTime = url.onTime {
-                cell.detailLabel.text = "Battery: \(battery)% \nTemp: \(temp)˚C \nPackets Sent: \(advCount) \nUptime: \(onTime.readable)"
+
+        return cell
+    }
+    
+    func detailText(object: Object, cell: ExampleTableViewCell) {
+        if  let battery = object.battery,
+            let temp = object.temperature,
+            let advCount = object.advertisementCount,
+            let onTime = object.onTime {
+            cell.detailLabel.text = "Battery: \(battery)% \nTemp: \(temp)˚C \nPackets Sent: \(advCount) \nUptime: \(onTime.readable)"
         } else {
             cell.detailLabel.text = "No telemetry data"
         }
         
-        
-        
-        switch url.signalStrength {
-        case .Excellent: cell.signalStrengthView.signal = .Excellent
-        case .VeryGood: cell.signalStrengthView.signal = .VeryGood
-        case .Good: cell.signalStrengthView.signal = .Good
-        case .Low: cell.signalStrengthView.signal = .Low
-        case .VeryLow: cell.signalStrengthView.signal = .VeryLow
-        case .NoSignal: cell.signalStrengthView.signal = .NoSignal
-        default: cell.signalStrengthView.signal = .Unknown
+        switch object.signalStrength {
+            case .excellent: cell.signalStrengthView.signal = .excellent
+            case .veryGood: cell.signalStrengthView.signal = .veryGood
+            case .good: cell.signalStrengthView.signal = .good
+            case .low: cell.signalStrengthView.signal = .low
+            case .veryLow: cell.signalStrengthView.signal = .veryLow
+            case .noSignal: cell.signalStrengthView.signal = .noSignal
+            default: cell.signalStrengthView.signal = .unknown
         }
-    
-        return cell
     }
-    
+
 }
 
 extension ExampleViewController: UITableViewDelegate {
     
-    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        tableView.deselectRowAtIndexPath(indexPath, animated: true)
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
 }

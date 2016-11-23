@@ -2,11 +2,11 @@ source 'https://github.com/CocoaPods/Specs.git'
 platform :ios, '8.0'
 use_frameworks!
 
-target 'Eddystone_Example', :exclusive => true do
+target 'Eddystone_Example' do
     pod "SignalStrength"
     pod "Eddystone", :path => "../"
 end
 
-target 'Eddystone_Tests', :exclusive => true do
+target 'Eddystone_Tests' do
     pod "Eddystone", :path => "../" 
 end

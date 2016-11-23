@@ -24,14 +24,14 @@ class TlmFrame: Frame {
         super.init()
     }
     
-    override class func frameWithBytes(bytes: [Byte]) -> TlmFrame? {
+    override class func frameWithBytes(_ bytes: [Byte]) -> TlmFrame? {
         var batteryVolts: Int?
         var temperature: Double?
         var advertisementCount: Int?
         var onTime: Int?
         
         if bytes.count <= 2 || bytes[1] != 0 {
-            log("Invalid TLM version, only 0 is supported")
+            print("Invalid TLM version, only 0 is supported")
             return nil
         }
         
@@ -66,7 +66,7 @@ class TlmFrame: Frame {
             let onTime = onTime {
             return TlmFrame(batteryVolts: batteryVolts, temperature: temperature, advertisementCount: advertisementCount, onTime: onTime)
         } else {
-            log("Invalid TLM frame")
+            print("Invalid TLM frame")
         }
         
         return nil
